@@ -9,6 +9,15 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// Login ...
+// @Title 로그인
+// @Description 로그인
+// @Tags Auth
+// @Param	body  body     requests.Login  true  "로그인"
+// @Success 200   {object} requests.Login
+// @Failure 401
+// @Failure 500
+// @Router /v1/auth/login [Post]
 func Login(c *gin.Context) {
 	var reqUser requests.Login
 
@@ -18,7 +27,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	user, err := models.GetMyProfile(reqUser.Email)
+	user, err := models.GetMyProfileByEmail(reqUser.Email)
 	err = models.VerifyPassword(user.Password, reqUser.Password)
 	if err != nil && err == bcrypt.ErrMismatchedHashAndPassword {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Fail to auth"})

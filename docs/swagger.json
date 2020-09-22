@@ -1,0 +1,316 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Dev Event API",
+        "title": "Dev Event Server",
+        "contact": {},
+        "license": {}
+    },
+    "paths": {
+        "/v1/admin/users": {
+            "get": {
+                "security": [
+                    {
+                        "userAPIKey": []
+                    }
+                ],
+                "description": "Get all users info",
+                "tags": [
+                    "Admin - Users"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/responses.Users"
+                            }
+                        }
+                    },
+                    "401": {},
+                    "404": {},
+                    "500": {}
+                }
+            }
+        },
+        "/v1/admin/users/:userID": {
+            "get": {
+                "security": [
+                    {
+                        "userAPIKey": []
+                    }
+                ],
+                "description": "회원 정보 조회",
+                "tags": [
+                    "Admin - Users"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "userID",
+                        "name": "userID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Users"
+                        }
+                    },
+                    "401": {},
+                    "404": {},
+                    "500": {}
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "userAPIKey": []
+                    }
+                ],
+                "description": "회원 정보 수정",
+                "tags": [
+                    "Admin - Users"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "userID",
+                        "name": "userID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Users"
+                        }
+                    },
+                    "400": {},
+                    "401": {},
+                    "404": {},
+                    "500": {}
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "userAPIKey": []
+                    }
+                ],
+                "description": "회원 정보 삭제",
+                "tags": [
+                    "Admin - Users"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "userID",
+                        "name": "userID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Message"
+                        }
+                    },
+                    "401": {},
+                    "404": {},
+                    "500": {}
+                }
+            }
+        },
+        "/v1/auth/login": {
+            "post": {
+                "description": "로그인",
+                "tags": [
+                    "Auth"
+                ],
+                "parameters": [
+                    {
+                        "description": "로그인",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.Login"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/requests.Login"
+                        }
+                    },
+                    "401": {},
+                    "500": {}
+                }
+            }
+        },
+        "/v1/auth/register": {
+            "post": {
+                "description": "회원가입",
+                "tags": [
+                    "Auth"
+                ],
+                "parameters": [
+                    {
+                        "description": "register user",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.RegisterUser"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Message"
+                        }
+                    },
+                    "400": {},
+                    "500": {}
+                }
+            }
+        },
+        "/v1/users/:email": {
+            "get": {
+                "security": [
+                    {
+                        "userAPIKey": []
+                    }
+                ],
+                "description": "나의 프로필 확인",
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "email",
+                        "name": "email",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Users"
+                        }
+                    },
+                    "401": {},
+                    "500": {}
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "userAPIKey": []
+                    }
+                ],
+                "description": "프로필 수정",
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "email",
+                        "name": "email",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Message"
+                        }
+                    },
+                    "401": {},
+                    "404": {},
+                    "500": {}
+                }
+            }
+        }
+    },
+    "definitions": {
+        "requests.Login": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "requests.RegisterUser": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "level": {
+                    "type": "integer"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "responses.Message": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "responses.Users": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

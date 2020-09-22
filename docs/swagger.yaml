@@ -1,0 +1,203 @@
+definitions:
+  requests.Login:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  requests.RegisterUser:
+    properties:
+      email:
+        type: string
+      level:
+        type: integer
+      nickname:
+        type: string
+      password:
+        type: string
+    type: object
+  responses.Message:
+    properties:
+      message:
+        type: string
+    type: object
+  responses.Users:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      nickname:
+        type: string
+      password:
+        type: string
+      updated_at:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: Dev Event API
+  license: {}
+  title: Dev Event Server
+paths:
+  /v1/admin/users:
+    get:
+      description: Get all users info
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/responses.Users'
+            type: array
+        "401": {}
+        "404": {}
+        "500": {}
+      security:
+      - userAPIKey: []
+      tags:
+      - Admin - Users
+  /v1/admin/users/:userID:
+    delete:
+      description: 회원 정보 삭제
+      parameters:
+      - description: userID
+        in: path
+        name: userID
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Message'
+        "401": {}
+        "404": {}
+        "500": {}
+      security:
+      - userAPIKey: []
+      tags:
+      - Admin - Users
+    get:
+      description: 회원 정보 조회
+      parameters:
+      - description: userID
+        in: path
+        name: userID
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Users'
+        "401": {}
+        "404": {}
+        "500": {}
+      security:
+      - userAPIKey: []
+      tags:
+      - Admin - Users
+    put:
+      description: 회원 정보 수정
+      parameters:
+      - description: userID
+        in: path
+        name: userID
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Users'
+        "400": {}
+        "401": {}
+        "404": {}
+        "500": {}
+      security:
+      - userAPIKey: []
+      tags:
+      - Admin - Users
+  /v1/auth/login:
+    post:
+      description: 로그인
+      parameters:
+      - description: 로그인
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/requests.Login'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/requests.Login'
+        "401": {}
+        "500": {}
+      tags:
+      - Auth
+  /v1/auth/register:
+    post:
+      description: 회원가입
+      parameters:
+      - description: register user
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/requests.RegisterUser'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/responses.Message'
+        "400": {}
+        "500": {}
+      tags:
+      - Auth
+  /v1/users/:email:
+    get:
+      description: 나의 프로필 확인
+      parameters:
+      - description: email
+        in: path
+        name: email
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Users'
+        "401": {}
+        "500": {}
+      security:
+      - userAPIKey: []
+      tags:
+      - Users
+    put:
+      description: 프로필 수정
+      parameters:
+      - description: email
+        in: path
+        name: email
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Message'
+        "401": {}
+        "404": {}
+        "500": {}
+      security:
+      - userAPIKey: []
+      tags:
+      - Users
+swagger: "2.0"
