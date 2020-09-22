@@ -3,7 +3,6 @@ package models
 import (
 	"dev-event/requests"
 	"errors"
-	"log"
 	"time"
 
 	"github.com/badoux/checkmail"
@@ -16,6 +15,7 @@ type Users struct {
 	Nickname  string    `gorm:"size:255;not null;unique"   json:"nickname"`
 	Email     string    `gorm:"size:100;not null;unique"   json:"email"`
 	Password  string    `gorm:"size:100;not null;"         json:"password"`
+	Level     int       `gorm:"size:100;not null;"         json:"level"`
 	CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP"  json:"created_at"`
 	UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP"  json:"updated_at"`
 }
@@ -37,10 +37,6 @@ func RegisterUser(req requests.RegisterUser) (err error) {
 	NicknameValication(req.Nickname)
 	if err != nil {
 		return
-	}
-
-	if err != nil {
-		log.Fatal(err)
 	}
 
 	encPassword, err := EncPassword(req.Password)
@@ -84,26 +80,39 @@ func NicknameValication(nickname string) (err error) {
 	qs = qs.NicknameEq(nickname)
 	err = qs.All(&user)
 	if len(user) >= 1 {
-		return
+		return errors.New("Exist Nickname")
 	}
 
 	return
 }
 
-func GetMyProfile(userEmail string) (user Users, err error) {
+func GetMyProfileByUserID(userID uint) (user Users, err error) {
 	qs := NewUsersQuerySet(gGormDB)
-	qs = qs.EmailEq(userEmail)
+	qs = qs.IDEq(userID)
 	err = qs.One(&user)
 
 	return
 }
 
-func ModifyProfile(req requests.RegisterUser, userID string) (err error) {
+func GetMyProfileByEmail(email string) (user Users, err error) {
+	qs := NewUsersQuerySet(gGormDB)
+	qs = qs.EmailEq(email)
+	err = qs.One(&user)
+
+	return
+}
+
+func ModifyProfile(req requests.RegisterUser, email string) (err error) {
+	encPassword, err := EncPassword(req.Password)
+	if err != nil {
+		return
+	}
+
 	_, err = NewUsersQuerySet(gGormDB).
 		GetUpdater().
 		SetEmail(req.Email).
 		SetNickname(req.Nickname).
-		SetPassword(req.Password).
+		SetPassword(encPassword).
 		UpdateNum()
 
 	return
@@ -115,4 +124,19 @@ func Hash(password string) ([]byte, error) {
 
 func VerifyPassword(hashedPassword, password string) error {
 	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
+}
+
+func VerifyTokenIDAndEmail(userID uint, email string) (err error) {
+	var user Users
+
+	qs := NewUsersQuerySet(gGormDB)
+	qs = qs.EmailEq(email)
+	err = qs.One(&user)
+	if err != nil {
+		return
+	} else if user.ID != userID {
+		return errors.New("unauthorized")
+	}
+
+	return
 }
