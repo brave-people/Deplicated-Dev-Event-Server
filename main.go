@@ -2,10 +2,9 @@ package main
 
 import (
 	setup "dev-event/config"
+	"dev-event/docs"
 	"dev-event/models"
 	"dev-event/routers"
-
-	"dev-event/docs"
 
 	"github.com/gin-gonic/gin"
 )

@@ -1,4 +1,22 @@
 definitions:
+  models.Event:
+    properties:
+      id:
+        type: integer
+      nickname:
+        type: string
+      tages:
+        items:
+          $ref: '#/definitions/models.Tag'
+        type: array
+    type: object
+  models.Tag:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
   requests.Login:
     properties:
       email:
@@ -160,7 +178,28 @@ paths:
         "500": {}
       tags:
       - Auth
-  /v1/users/:email:
+  /v1/events/:eventID:
+    get:
+      description: 이벤트 정보 조회
+      parameters:
+      - description: eventID
+        in: path
+        name: eventID
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Event'
+        "401": {}
+        "404": {}
+        "500": {}
+      security:
+      - userAPIKey: []
+      tags:
+      - Event
+  /v1/users:
     get:
       description: 나의 프로필 확인
       parameters:

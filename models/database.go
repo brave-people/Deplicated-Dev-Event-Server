@@ -21,7 +21,7 @@ func DBInit() (err error) {
 	gGormDB = db
 
 	log.Println("[DB] Start DB Migration ... ")
-	db.AutoMigrate(&Users{})
+	db.AutoMigrate(&Users{}, &Event{}, &Tag{})
 	log.Println("[DB] Start DB ... ")
 
 	return

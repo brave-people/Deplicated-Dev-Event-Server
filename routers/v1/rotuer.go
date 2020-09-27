@@ -22,8 +22,13 @@ func ApplyRoutes(r *gin.RouterGroup) {
 	user := r.Group("/users")
 	{
 		user.GET("/", controllers.GetMyProfile)
-		user.PUT("/:email", controllers.ModifyProfile)
+		user.PUT("/", controllers.ModifyProfile)
 	}
+
+	// event := r.Group("/event")
+	// {
+	// 	event.GET("/", controllers.GetAllEvent)
+	// }
 
 	admin := r.Group("/admin")
 	{
@@ -34,9 +39,18 @@ func ApplyRoutes(r *gin.RouterGroup) {
 			users.PUT("/:userID", middlewares.AdminCheck, controllers.AdminUpdateUser)
 			users.DELETE("/:userID", middlewares.AdminCheck, controllers.AdminDeleteUser)
 		}
-		// 	events := r.Group("/events")
-		// 	{
-
-		// 	}
+		events := admin.Group("/events")
+		{
+			events.GET("/:eventID", controllers.GetOneEvent)
+			events.PUT("/:eventID", controllers.UpdateEvent)
+			events.DELETE("/:eventID", controllers.DeleteEvent)
+		}
+		tags := admin.Group("/tags")
+		{
+			tags.GET("/", controllers.GetAllTags)
+			tags.POST("/", controllers.CreateTag)
+			tags.PUT("/:tagID", controllers.UpdateTag)
+			tags.DELETE("/:tagID", controllers.DeleteTag)
+		}
 	}
 }
