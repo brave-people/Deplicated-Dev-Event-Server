@@ -89,7 +89,7 @@ func AdminUpdateUser(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Successfully saved stage infomation."})
+	c.JSON(http.StatusOK, gin.H{"message": "Successfully saved stage information."})
 }
 
 // AdminDeleteUser ...

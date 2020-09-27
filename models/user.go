@@ -102,13 +102,14 @@ func GetMyProfileByEmail(email string) (user Users, err error) {
 	return
 }
 
-func ModifyProfile(req requests.RegisterUser, email string) (err error) {
+func ModifyProfile(req requests.RegisterUser, userID uint) (err error) {
 	encPassword, err := EncPassword(req.Password)
 	if err != nil {
 		return
 	}
 
 	_, err = NewUsersQuerySet(gGormDB).
+		IDEq(userID).
 		GetUpdater().
 		SetEmail(req.Email).
 		SetNickname(req.Nickname).

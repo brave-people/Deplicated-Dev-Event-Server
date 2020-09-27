@@ -83,14 +83,12 @@ func GetMyProfile(c *gin.Context) {
 // @Failure 401
 // @Failure 404
 // @Failure 500
-// @Router /v1/users/:email [Put]
+// @Router /v1/users [Put]
 // @Security userAPIKey
 func ModifyProfile(c *gin.Context) {
-	email := c.Param("email")
-
-	err := VerifyRequestUser(c, email)
+	tokenUserID, err := ExtractTokenID(c.Request)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, "unauthorized")
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Fail to auth"})
 		return
 	}
 
@@ -101,7 +99,7 @@ func ModifyProfile(c *gin.Context) {
 		return
 	}
 
-	err = models.ModifyProfile(user, email)
+	err = models.ModifyProfile(user, tokenUserID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, err)
 		return

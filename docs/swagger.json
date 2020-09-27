@@ -188,7 +188,40 @@
                 }
             }
         },
-        "/v1/users/:email": {
+        "/v1/events/:eventID": {
+            "get": {
+                "security": [
+                    {
+                        "userAPIKey": []
+                    }
+                ],
+                "description": "이벤트 정보 조회",
+                "tags": [
+                    "Event"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "eventID",
+                        "name": "eventID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Event"
+                        }
+                    },
+                    "401": {},
+                    "404": {},
+                    "500": {}
+                }
+            }
+        },
+        "/v1/users": {
             "get": {
                 "security": [
                     {
@@ -253,6 +286,34 @@
         }
     },
     "definitions": {
+        "models.Event": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "tages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Tag"
+                    }
+                }
+            }
+        },
+        "models.Tag": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "requests.Login": {
             "type": "object",
             "properties": {
