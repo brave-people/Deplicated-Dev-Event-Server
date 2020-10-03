@@ -17,7 +17,7 @@ import (
 // @Success 200   {object} requests.Login
 // @Failure 401
 // @Failure 500
-// @Router /v1/auth/login [Post]
+// @Router /auth/login [Post]
 func Login(c *gin.Context) {
 	var reqUser requests.Login
 

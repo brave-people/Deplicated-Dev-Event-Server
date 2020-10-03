@@ -1,7 +1,17 @@
 definitions:
   models.Event:
     properties:
+      contact:
+        type: string
+      day:
+        type: integer
+      free:
+        type: integer
       id:
+        type: integer
+      imgURL:
+        type: string
+      month:
         type: integer
       nickname:
         type: string
@@ -9,6 +19,12 @@ definitions:
         items:
           $ref: '#/definitions/models.Tag'
         type: array
+      time:
+        type: integer
+      title:
+        type: string
+      year:
+        type: integer
     type: object
   models.Tag:
     properties:
@@ -16,6 +32,29 @@ definitions:
         type: integer
       name:
         type: string
+    type: object
+  requests.Event:
+    properties:
+      contact:
+        type: string
+      day:
+        type: integer
+      free:
+        type: integer
+      id:
+        type: integer
+      imgURL:
+        type: string
+      month:
+        type: integer
+      nickname:
+        type: string
+      time:
+        type: integer
+      title:
+        type: string
+      year:
+        type: integer
     type: object
   requests.Login:
     properties:
@@ -35,9 +74,43 @@ definitions:
       password:
         type: string
     type: object
+  responses.Event:
+    properties:
+      contact:
+        type: string
+      day:
+        type: integer
+      free:
+        type: integer
+      id:
+        type: integer
+      imgURL:
+        type: string
+      month:
+        type: integer
+      nickname:
+        type: string
+      tages:
+        items:
+          $ref: '#/definitions/responses.Tag'
+        type: array
+      time:
+        type: integer
+      title:
+        type: string
+      year:
+        type: integer
+    type: object
   responses.Message:
     properties:
       message:
+        type: string
+    type: object
+  responses.Tag:
+    properties:
+      id:
+        type: integer
+      name:
         type: string
     type: object
   responses.Users:
@@ -61,7 +134,176 @@ info:
   license: {}
   title: Dev Event Server
 paths:
-  /v1/admin/users:
+  /admin/events:
+    post:
+      description: 새 이벤트 생성
+      parameters:
+      - description: create event
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/requests.Event'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/responses.Message'
+        "400": {}
+        "401": {}
+        "500": {}
+      security:
+      - userAPIKey: []
+      tags:
+      - Admin - Events
+  /admin/events/:eventID:
+    delete:
+      description: 이벤트 삭제
+      parameters:
+      - description: eventID
+        in: path
+        name: eventID
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Message'
+        "401": {}
+        "404": {}
+        "500": {}
+      security:
+      - userAPIKey: []
+      tags:
+      - Admin - Events
+    get:
+      description: 이벤트 정보 조회
+      parameters:
+      - description: eventID
+        in: path
+        name: eventID
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Event'
+        "401": {}
+        "404": {}
+        "500": {}
+      security:
+      - userAPIKey: []
+      tags:
+      - Admin - Events
+    put:
+      description: 이벤트 수정
+      parameters:
+      - description: Save event
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/requests.Event'
+      - description: eventID
+        in: path
+        name: eventID
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Event'
+        "401": {}
+        "404": {}
+        "500": {}
+      security:
+      - userAPIKey: []
+      tags:
+      - Admin - Events
+  /admin/tags:
+    delete:
+      description: 태그 삭제
+      parameters:
+      - description: tagID
+        in: path
+        name: tagID
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/responses.Message'
+            type: array
+        "400": {}
+        "401": {}
+        "500": {}
+      security:
+      - userAPIKey: []
+      tags:
+      - Admin - Tags
+    get:
+      description: 모든 태그 조회
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/responses.Tag'
+            type: array
+        "400": {}
+        "401": {}
+        "500": {}
+      security:
+      - userAPIKey: []
+      tags:
+      - Admin - Tags
+    post:
+      description: 태그 생성
+      parameters:
+      - description: tagID
+        in: path
+        name: tagID
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Message'
+        "401": {}
+        "404": {}
+        "500": {}
+      security:
+      - userAPIKey: []
+      tags:
+      - Admin - Tags
+  /admin/tags/:tagID:
+    put:
+      description: 태그 수정
+      parameters:
+      - description: tagID
+        in: path
+        name: tagID
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Message'
+        "401": {}
+        "404": {}
+        "500": {}
+      security:
+      - userAPIKey: []
+      tags:
+      - Admin - Tags
+  /admin/users:
     get:
       description: Get all users info
       responses:
@@ -78,7 +320,7 @@ paths:
       - userAPIKey: []
       tags:
       - Admin - Users
-  /v1/admin/users/:userID:
+  /admin/users/:userID:
     delete:
       description: 회원 정보 삭제
       parameters:
@@ -140,7 +382,7 @@ paths:
       - userAPIKey: []
       tags:
       - Admin - Users
-  /v1/auth/login:
+  /auth/login:
     post:
       description: 로그인
       parameters:
@@ -159,7 +401,7 @@ paths:
         "500": {}
       tags:
       - Auth
-  /v1/auth/register:
+  /auth/register:
     post:
       description: 회원가입
       parameters:
@@ -178,28 +420,33 @@ paths:
         "500": {}
       tags:
       - Auth
-  /v1/events/:eventID:
+  /events/:year/:month:
     get:
-      description: 이벤트 정보 조회
+      description: 이벤트 가져오기 (년, 월)
       parameters:
-      - description: eventID
+      - description: year
         in: path
-        name: eventID
+        name: year
+        required: true
+        type: string
+      - description: month
+        in: path
+        name: month
         required: true
         type: string
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Event'
+            items:
+              $ref: '#/definitions/responses.Event'
+            type: array
         "401": {}
         "404": {}
         "500": {}
-      security:
-      - userAPIKey: []
       tags:
-      - Event
-  /v1/users:
+      - Events
+  /users:
     get:
       description: 나의 프로필 확인
       parameters:

@@ -12,7 +12,7 @@ import (
 // GetAllTags ...
 // @Title 모든 태그 조회
 // @Description 모든 태그 조회
-// @Tags Tags
+// @Tags Admin - Tags
 // @Success 200 {object} []responses.Tag
 // @Failure 400
 // @Failure 401
@@ -35,12 +35,13 @@ func GetAllTags(c *gin.Context) {
 // DeleteTag ...
 // @Title 태그 삭제
 // @Description 태그 삭제
-// @Tags Tags
+// @Tags Admin - Tags
+// @Param	tagID	 path	string   true	"tagID"
 // @Success 200 {object} []responses.Message
 // @Failure 400
 // @Failure 401
 // @Failure 500
-// @Router /admin/tags [Get]
+// @Router /admin/tags [Delete]
 // @Security userAPIKey
 func DeleteTag(c *gin.Context) {
 	tagID := c.Param("tagID")
@@ -60,13 +61,14 @@ func DeleteTag(c *gin.Context) {
 // UpdateTag ...
 // @Title 태그 수정
 // @Description 태그 수정
-// @Tags Tours
+// @Tags Admin - Tags
 // @Param   tagID	path	string  true	"tagID"
 // @Success 200 {object} responses.Message
 // @Failure 401
 // @Failure 404
 // @Failure 500
 // @Router /admin/tags/:tagID [Put]
+// @Security userAPIKey
 func UpdateTag(c *gin.Context) {
 	tagID := c.Param("tagID")
 	var tag requests.Tag
@@ -92,13 +94,14 @@ func UpdateTag(c *gin.Context) {
 // CreateTag ...
 // @Title 태그 생성
 // @Description 태그 생성
-// @Tags Tours
+// @Tags Admin - Tags
 // @Param   tagID	path	string  true	"tagID"
 // @Success 200 {object} responses.Message
 // @Failure 401
 // @Failure 404
 // @Failure 500
 // @Router /admin/tags [Post]
+// @Security userAPIKey
 func CreateTag(c *gin.Context) {
 	var tag requests.Tag
 	err := c.BindJSON(&tag)
