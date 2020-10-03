@@ -13,6 +13,10 @@ import (
 // @Title Dev Event Server
 // @Description Dev Event API
 func main() {
+	setupServer().Run(":8090")
+}
+
+func setupServer() *gin.Engine {
 	r := gin.Default()
 
 	setup.ViperInit()
@@ -23,4 +27,5 @@ func main() {
 
 	docs.SwaggerInfo.Host = "127.0.0.1:8090"
 	r.Run(":8090")
+	return r
 }

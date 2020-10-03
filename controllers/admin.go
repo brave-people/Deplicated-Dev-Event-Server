@@ -17,7 +17,7 @@ import (
 // @Failure 401
 // @Failure 404
 // @Failure 500
-// @Router /v1/admin/users [Get]
+// @Router /admin/users [Get]
 // @Security userAPIKey
 func AdminGetAllUsers(c *gin.Context) {
 	res, err := models.GetAllUsers()
@@ -41,7 +41,7 @@ func AdminGetAllUsers(c *gin.Context) {
 // @Failure 401
 // @Failure 404
 // @Failure 500
-// @Router /v1/admin/users/:userID [Get]
+// @Router /admin/users/:userID [Get]
 // @Security userAPIKey
 func AdminGetOneUser(c *gin.Context) {
 	userID := c.Param("userID")
@@ -68,7 +68,7 @@ func AdminGetOneUser(c *gin.Context) {
 // @Failure 401
 // @Failure 404
 // @Failure 500
-// @Router /v1/admin/users/:userID [Put]
+// @Router /admin/users/:userID [Put]
 // @Security userAPIKey
 func AdminUpdateUser(c *gin.Context) {
 	userID := c.Param("userID")
@@ -101,7 +101,7 @@ func AdminUpdateUser(c *gin.Context) {
 // @Failure 401
 // @Failure 404
 // @Failure 500
-// @Router /v1/admin/users/:userID [Delete]
+// @Router /admin/users/:userID [Delete]
 // @Security userAPIKey
 func AdminDeleteUser(c *gin.Context) {
 	userID := c.Param("userID")

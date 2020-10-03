@@ -2,11 +2,25 @@
 
 # Dev Event Server
 
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)]
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)
+![Dev Event](https://img.shields.io/badge/alpha-0.2.0v-blue?style=flat-square)
+<!-- Author, Travis CI, Go report, license -->
 
 </div>
 
 <br />
+
+
+## Update Note
+
+<details>
+  <summary>
+    0.3 Alpha
+  </summary>
+
+- swagger 업데이트
+
+</details>
 
 ## Tech
 
@@ -37,9 +51,9 @@
   - [x] 사용자 정보 수정
 - 관리자
   - 이벤트
-    - [ ] 이벤트 전체보기
-    - [ ] 이벤트 추가
-    - [ ] 이벤트 수정
+    - [x] 이벤트 전체보기
+    - [x] 이벤트 추가
+    - [x] 이벤트 수정
     - [x] 이벤트 삭제
   - 태그 
     - [x] 태그 전체보기

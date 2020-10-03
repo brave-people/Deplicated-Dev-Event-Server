@@ -25,7 +25,271 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/v1/admin/users": {
+        "/admin/events": {
+            "post": {
+                "security": [
+                    {
+                        "userAPIKey": []
+                    }
+                ],
+                "description": "새 이벤트 생성",
+                "tags": [
+                    "Admin - Events"
+                ],
+                "parameters": [
+                    {
+                        "description": "create event",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.Event"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Message"
+                        }
+                    },
+                    "400": {},
+                    "401": {},
+                    "500": {}
+                }
+            }
+        },
+        "/admin/events/:eventID": {
+            "get": {
+                "security": [
+                    {
+                        "userAPIKey": []
+                    }
+                ],
+                "description": "이벤트 정보 조회",
+                "tags": [
+                    "Admin - Events"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "eventID",
+                        "name": "eventID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Event"
+                        }
+                    },
+                    "401": {},
+                    "404": {},
+                    "500": {}
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "userAPIKey": []
+                    }
+                ],
+                "description": "이벤트 수정",
+                "tags": [
+                    "Admin - Events"
+                ],
+                "parameters": [
+                    {
+                        "description": "Save event",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.Event"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "eventID",
+                        "name": "eventID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Event"
+                        }
+                    },
+                    "401": {},
+                    "404": {},
+                    "500": {}
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "userAPIKey": []
+                    }
+                ],
+                "description": "이벤트 삭제",
+                "tags": [
+                    "Admin - Events"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "eventID",
+                        "name": "eventID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Message"
+                        }
+                    },
+                    "401": {},
+                    "404": {},
+                    "500": {}
+                }
+            }
+        },
+        "/admin/tags": {
+            "get": {
+                "security": [
+                    {
+                        "userAPIKey": []
+                    }
+                ],
+                "description": "모든 태그 조회",
+                "tags": [
+                    "Admin - Tags"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/responses.Tag"
+                            }
+                        }
+                    },
+                    "400": {},
+                    "401": {},
+                    "500": {}
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "userAPIKey": []
+                    }
+                ],
+                "description": "태그 생성",
+                "tags": [
+                    "Admin - Tags"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "tagID",
+                        "name": "tagID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Message"
+                        }
+                    },
+                    "401": {},
+                    "404": {},
+                    "500": {}
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "userAPIKey": []
+                    }
+                ],
+                "description": "태그 삭제",
+                "tags": [
+                    "Admin - Tags"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "tagID",
+                        "name": "tagID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/responses.Message"
+                            }
+                        }
+                    },
+                    "400": {},
+                    "401": {},
+                    "500": {}
+                }
+            }
+        },
+        "/admin/tags/:tagID": {
+            "put": {
+                "security": [
+                    {
+                        "userAPIKey": []
+                    }
+                ],
+                "description": "태그 수정",
+                "tags": [
+                    "Admin - Tags"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "tagID",
+                        "name": "tagID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Message"
+                        }
+                    },
+                    "401": {},
+                    "404": {},
+                    "500": {}
+                }
+            }
+        },
+        "/admin/users": {
             "get": {
                 "security": [
                     {
@@ -52,7 +316,7 @@ var doc = `{
                 }
             }
         },
-        "/v1/admin/users/:userID": {
+        "/admin/users/:userID": {
             "get": {
                 "security": [
                     {
@@ -148,7 +412,7 @@ var doc = `{
                 }
             }
         },
-        "/v1/auth/login": {
+        "/auth/login": {
             "post": {
                 "description": "로그인",
                 "tags": [
@@ -177,7 +441,7 @@ var doc = `{
                 }
             }
         },
-        "/v1/auth/register": {
+        "/auth/register": {
             "post": {
                 "description": "회원가입",
                 "tags": [
@@ -206,22 +470,24 @@ var doc = `{
                 }
             }
         },
-        "/v1/events/:eventID": {
+        "/events/:year/:month": {
             "get": {
-                "security": [
-                    {
-                        "userAPIKey": []
-                    }
-                ],
-                "description": "이벤트 정보 조회",
+                "description": "이벤트 가져오기 (년, 월)",
                 "tags": [
-                    "Event"
+                    "Events"
                 ],
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "eventID",
-                        "name": "eventID",
+                        "description": "year",
+                        "name": "year",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "month",
+                        "name": "month",
                         "in": "path",
                         "required": true
                     }
@@ -230,7 +496,10 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Event"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/responses.Event"
+                            }
                         }
                     },
                     "401": {},
@@ -239,7 +508,7 @@ var doc = `{
                 }
             }
         },
-        "/v1/users": {
+        "/users": {
             "get": {
                 "security": [
                     {
@@ -307,7 +576,22 @@ var doc = `{
         "models.Event": {
             "type": "object",
             "properties": {
+                "contact": {
+                    "type": "string"
+                },
+                "day": {
+                    "type": "integer"
+                },
+                "free": {
+                    "type": "integer"
+                },
                 "id": {
+                    "type": "integer"
+                },
+                "imgURL": {
+                    "type": "string"
+                },
+                "month": {
                     "type": "integer"
                 },
                 "nickname": {
@@ -318,6 +602,15 @@ var doc = `{
                     "items": {
                         "$ref": "#/definitions/models.Tag"
                     }
+                },
+                "time": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "year": {
+                    "type": "integer"
                 }
             }
         },
@@ -329,6 +622,41 @@ var doc = `{
                 },
                 "name": {
                     "type": "string"
+                }
+            }
+        },
+        "requests.Event": {
+            "type": "object",
+            "properties": {
+                "contact": {
+                    "type": "string"
+                },
+                "day": {
+                    "type": "integer"
+                },
+                "free": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "imgURL": {
+                    "type": "string"
+                },
+                "month": {
+                    "type": "integer"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "time": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "year": {
+                    "type": "integer"
                 }
             }
         },
@@ -360,10 +688,62 @@ var doc = `{
                 }
             }
         },
+        "responses.Event": {
+            "type": "object",
+            "properties": {
+                "contact": {
+                    "type": "string"
+                },
+                "day": {
+                    "type": "integer"
+                },
+                "free": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "imgURL": {
+                    "type": "string"
+                },
+                "month": {
+                    "type": "integer"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "tages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responses.Tag"
+                    }
+                },
+                "time": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "year": {
+                    "type": "integer"
+                }
+            }
+        },
         "responses.Message": {
             "type": "object",
             "properties": {
                 "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "responses.Tag": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
                     "type": "string"
                 }
             }

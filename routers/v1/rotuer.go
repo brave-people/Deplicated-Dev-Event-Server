@@ -10,7 +10,7 @@ import (
 func ApplyRoutes(r *gin.RouterGroup) {
 	test := r.Group("/light")
 	{
-		test.GET("/", func(c *gin.Context) { c.String(200, "salt") })
+		test.GET("/", func(c *gin.Context) { c.JSON(200, "salt") })
 	}
 
 	auth := r.Group("/auth")
@@ -19,16 +19,16 @@ func ApplyRoutes(r *gin.RouterGroup) {
 		auth.POST("/login", controllers.Login)
 	}
 
-	user := r.Group("/users")
+	users := r.Group("/users")
 	{
-		user.GET("/", controllers.GetMyProfile)
-		user.PUT("/", controllers.ModifyProfile)
+		users.GET("/", controllers.GetMyProfile)
+		users.PUT("/", controllers.ModifyProfile)
 	}
 
-	// event := r.Group("/event")
-	// {
-	// 	event.GET("/", controllers.GetAllEvent)
-	// }
+	events := r.Group("/events")
+	{
+		events.GET("/:year/:month", controllers.GetYYMMEvents)
+	}
 
 	admin := r.Group("/admin")
 	{
@@ -41,6 +41,7 @@ func ApplyRoutes(r *gin.RouterGroup) {
 		}
 		events := admin.Group("/events")
 		{
+			events.POST("/", controllers.CreateEvent)
 			events.GET("/:eventID", controllers.GetOneEvent)
 			events.PUT("/:eventID", controllers.UpdateEvent)
 			events.DELETE("/:eventID", controllers.DeleteEvent)

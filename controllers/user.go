@@ -29,7 +29,7 @@ func VerifyRequestUser(c *gin.Context, userEmail string) (err error) {
 // @Success 201 {object} responses.Message
 // @Failure 400
 // @Failure 500
-// @Router /v1/auth/register [Post]
+// @Router /auth/register [Post]
 func RegisterUser(c *gin.Context) {
 	var user requests.RegisterUser
 
@@ -56,7 +56,7 @@ func RegisterUser(c *gin.Context) {
 // @Success 200 {object} responses.Users
 // @Failure 401
 // @Failure 500
-// @Router /v1/users [Get]
+// @Router /users [Get]
 // @Security userAPIKey
 func GetMyProfile(c *gin.Context) {
 	tokenUserID, err := ExtractTokenID(c.Request)
@@ -83,7 +83,7 @@ func GetMyProfile(c *gin.Context) {
 // @Failure 401
 // @Failure 404
 // @Failure 500
-// @Router /v1/users [Put]
+// @Router /users [Put]
 // @Security userAPIKey
 func ModifyProfile(c *gin.Context) {
 	tokenUserID, err := ExtractTokenID(c.Request)
